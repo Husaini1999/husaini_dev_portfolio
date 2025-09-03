@@ -14,26 +14,20 @@ import {
 	Menu,
 	X,
 	Download,
-	Award,
 	Calendar,
 	Users,
 	Code,
-	CheckCircle,
 	Github,
 	Globe,
 	Server,
 	Palette,
 	MessageCircle,
-	Star,
-	ChevronLeft,
-	ChevronRight,
 	Mail,
 	Linkedin,
 	Send,
 	MapPin,
 	Phone,
 	ExternalLink,
-	Twitter,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -54,11 +48,15 @@ interface Skill {
 	level: number;
 }
 
+// These interfaces are used in the component but TypeScript doesn't recognize usage
+// due to dynamic rendering in the JSX
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface SkillCategory {
 	category: string;
 	skills: Skill[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Service {
 	icon: React.ComponentType<{ className?: string }>;
 	title: string;
@@ -66,22 +64,22 @@ interface Service {
 	features: string[];
 }
 
-interface Testimonial {
-	id: number;
-	name: string;
-	role: string;
-	company: string;
-	content: string;
-	rating: number;
-	avatar: string;
-}
+// interface Testimonial {
+// 	id: number;
+// 	name: string;
+// 	role: string;
+// 	company: string;
+// 	content: string;
+// 	rating: number;
+// 	avatar: string;
+// }
 
 export default function Home() {
 	const { theme, setTheme } = useTheme();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [mounted, setMounted] = useState(false);
 	// Removed activeFilter since project filtering is not implemented
-	const [currentTestimonial, setCurrentTestimonial] = useState(0);
+	// const [currentTestimonial, setCurrentTestimonial] = useState(0);
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
@@ -290,51 +288,51 @@ export default function Home() {
 		},
 	];
 
-	const testimonials = [
-		{
-			id: 1,
-			name: 'Sarah Chen',
-			role: 'Product Manager',
-			company: 'TechFlow Inc',
-			content:
-				'Husaini delivered an exceptional SaaS dashboard that exceeded our expectations. His attention to detail and ability to translate complex requirements into intuitive user experiences is remarkable. The project was completed on time and within budget.',
-			rating: 5,
-			avatar: '/professional-woman-headshot.png',
-		},
-		{
-			id: 2,
-			name: 'Marcus Rodriguez',
-			role: 'CTO',
-			company: 'GreenCommerce',
-			content:
-				"Working with Husaini was a game-changer for our e-commerce platform. He not only built a lightning-fast website but also implemented features we didn't even know we needed. The 40% increase in conversions speaks for itself.",
-			rating: 5,
-			avatar: '/professional-man-headshot.png',
-		},
-		{
-			id: 3,
-			name: 'Dr. Emily Watson',
-			role: 'Healthcare Director',
-			company: 'MedTech Solutions',
-			content:
-				'The mobile app Husaini developed for our patient monitoring system has revolutionized how we track patient compliance. His understanding of healthcare requirements and HIPAA compliance was impressive.',
-			rating: 5,
-			avatar: '/professional-doctor-headshot.png',
-		},
-	];
+	// const testimonials = [
+	// 	{
+	// 		id: 1,
+	// 		name: 'Sarah Chen',
+	// 		role: 'Product Manager',
+	// 		company: 'TechFlow Inc',
+	// 		content:
+	// 			'Husaini delivered an exceptional SaaS dashboard that exceeded our expectations. His attention to detail and ability to translate complex requirements into intuitive user experiences is remarkable. The project was completed on time and within budget.',
+	// 		rating: 5,
+	// 		avatar: '/professional-woman-headshot.png',
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		name: 'Marcus Rodriguez',
+	// 		role: 'CTO',
+	// 		company: 'GreenCommerce',
+	// 		content:
+	// 			"Working with Husaini was a game-changer for our e-commerce platform. He not only built a lightning-fast website but also implemented features we didn't even know we needed. The 40% increase in conversions speaks for itself.",
+	// 		rating: 5,
+	// 		avatar: '/professional-man-headshot.png',
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		name: 'Dr. Emily Watson',
+	// 		role: 'Healthcare Director',
+	// 		company: 'MedTech Solutions',
+	// 		content:
+	// 			'The mobile app Husaini developed for our patient monitoring system has revolutionized how we track patient compliance. His understanding of healthcare requirements and HIPAA compliance was impressive.',
+	// 		rating: 5,
+	// 		avatar: '/professional-doctor-headshot.png',
+	// 	},
+	// ];
 
 	// Project filtering removed since projects don't have category property
-	const filteredProjects = projects;
+	// const filteredProjects = projects; // Commented out since not used
 
-	const nextTestimonial = () => {
-		setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-	};
+	// const nextTestimonial = () => {
+	// 	setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+	// };
 
-	const prevTestimonial = () => {
-		setCurrentTestimonial(
-			(prev) => (prev - 1 + testimonials.length) % testimonials.length
-		);
-	};
+	// const prevTestimonial = () => {
+	// 	setCurrentTestimonial(
+	// 		(prev) => (prev - 1 + testimonials.length) % testimonials.length
+	// 	);
+	// };
 
 	return (
 		<div className="min-h-screen bg-[#F9FAFB] dark:bg-[#0D1117] text-[#1E293B] dark:text-[#E6EDF3] transition-colors duration-300">
@@ -567,16 +565,16 @@ export default function Home() {
 						{/* Bio Content */}
 						<div className="space-y-6">
 							<p className="text-lg text-[#64748B] dark:text-[#9CA3AF] leading-relaxed">
-								I'm a passionate fullstack developer with 3+ years of experience
-								building modern web applications. React enthusiast, JavaScript
-								expert, and always eager to learn new technologies.
+								I&apos;m a passionate fullstack developer with 3+ years of
+								experience building modern web applications. React enthusiast,
+								JavaScript expert, and always eager to learn new technologies.
 							</p>
 
 							<p className="text-lg text-[#64748B] dark:text-[#9CA3AF] leading-relaxed">
 								I specialize in creating scalable, user-centric solutions across
-								fintech, e-commerce, and SaaS platforms. When I'm not coding,
-								I'm exploring new tech, contributing to open-source, or
-								mentoring fellow developers.
+								fintech, e-commerce, and SaaS platforms. When I&apos;m not
+								coding, I&apos;m exploring new tech, contributing to
+								open-source, or mentoring fellow developers.
 							</p>
 
 							{/* Experience Stats */}
@@ -793,7 +791,7 @@ export default function Home() {
 						/* Responsive Grid Layout */
 						<div className="projects-grid">
 							{(showAllProjects ? projects : projects.slice(0, 6)).map(
-								(project, index) => (
+								(project) => (
 									<Card
 										key={project.id}
 										className="project-card group border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0D1117] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 w-full"
@@ -970,11 +968,11 @@ export default function Home() {
 				<div className="max-w-6xl mx-auto">
 					<div className="text-center mb-16">
 						<h2 className="text-3xl md:text-4xl font-bold mb-4">
-							Let's Work Together
+							Let&apos;s Work Together
 						</h2>
 						<div className="w-20 h-1 bg-[#2563EB] dark:bg-[#3B82F6] mx-auto rounded-full"></div>
 						<p className="text-lg text-[#64748B] dark:text-[#9CA3AF] mt-6 max-w-2xl mx-auto">
-							Ready to bring your project to life? Get in touch and let's
+							Ready to bring your project to life? Get in touch and let&apos;s
 							discuss how we can create something amazing together.
 						</p>
 					</div>
@@ -1086,7 +1084,8 @@ export default function Home() {
 									{submitStatus === 'success' && (
 										<div className="mt-4 p-3 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
 											<p className="text-green-800 dark:text-green-200 text-sm text-center">
-												✅ Message sent successfully! I'll get back to you soon.
+												✅ Message sent successfully! I&apos;ll get back to you
+												soon.
 											</p>
 										</div>
 									)}
@@ -1116,10 +1115,10 @@ export default function Home() {
 									Get in Touch
 								</h3>
 								<p className="text-[#64748B] dark:text-[#9CA3AF] mb-8 leading-relaxed">
-									I'm always excited to work on new projects and collaborate
-									with amazing people. Whether you have a specific project in
-									mind or just want to explore possibilities, I'd love to hear
-									from you.
+									I&apos;m always excited to work on new projects and
+									collaborate with amazing people. Whether you have a specific
+									project in mind or just want to explore possibilities,
+									I&apos;d love to hear from you.
 								</p>
 
 								<div className="space-y-4">
@@ -1205,7 +1204,7 @@ export default function Home() {
 												'Project Inquiry - Web Development'
 											);
 											const body = encodeURIComponent(`Hi Husaini,
-											I came across your portfolio and I'm interested in working with you on a project.
+											I came across your portfolio and I&apos;m interested in working with you on a project.
 
 											Project Details:
 											- Project Type: 
@@ -1213,7 +1212,7 @@ export default function Home() {
 											- Budget Range: 
 											- Description: 
 
-											Please let me know if you're available and how we can proceed.
+											Please let me know if you&apos;re available and how we can proceed.
 
 											Best regards,
 											[Your Name]`);
@@ -1250,7 +1249,8 @@ export default function Home() {
 							<h3 className="text-2xl font-bold mb-4">Husaini</h3>
 							<p className="text-gray-300 mb-6 leading-relaxed">
 								Fullstack developer passionate about creating exceptional
-								digital experiences. Let's build something amazing together.
+								digital experiences. Let&apos;s build something amazing
+								together.
 							</p>
 							<div className="flex space-x-4">
 								<Button
@@ -1286,7 +1286,7 @@ export default function Home() {
 										);
 										const body = encodeURIComponent(`Hi Husaini,
 
-										I came across your portfolio and I'm interested in working with you on a project.
+										I came across your portfolio and I&apos;m interested in working with you on a project.
 
 										Project Details:
 										- Project Type: 
@@ -1294,7 +1294,7 @@ export default function Home() {
 										- Budget Range: 
 										- Description: 
 
-										Please let me know if you're available and how we can proceed.
+										Please let me know if you&apos;re available and how we can proceed.
 
 										Best regards,
 										[Your Name]`);
