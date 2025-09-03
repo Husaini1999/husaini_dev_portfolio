@@ -1,0 +1,49 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "E-Commerce Platform",
+      "description": "A modern e-commerce solution with inventory management, order tracking, and responsive design that increased online sales by 300%.",
+      "techStack": ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
+      "image": "/eco-friendly-ecommerce.png",
+      "liveUrl": "https://example-ecommerce.com",
+      "githubUrl": "https://github.com/husaini/ecommerce-platform"
+    },
+    {
+      "id": 2,
+      "title": "Task Management Dashboard",
+      "description": "A comprehensive dashboard with real-time updates, drag-and-drop functionality, and team collaboration features that improved productivity by 45%.",
+      "techStack": ["React", "TypeScript", "Socket.io", "Chart.js", "Material-UI"],
+      "image": "/placeholder-4u2dj.png",
+      "liveUrl": "https://example-dashboard.com",
+      "githubUrl": "https://github.com/husaini/task-dashboard"
+    },
+    {
+      "id": 3,
+      "title": "Healthcare Mobile App",
+      "description": "A React Native app with secure authentication, appointment booking, and medical record access that reduced scheduling time by 60%.",
+      "techStack": ["React Native", "Firebase", "Redux", "Healthcare APIs"],
+      "image": "/placeholder-k4hqc.png",
+      "liveUrl": "https://example-healthcare.com",
+      "githubUrl": "https://github.com/husaini/healthcare-app"
+    },
+    {
+      "id": 4,
+      "title": "SaaS Analytics Platform",
+      "description": "A comprehensive analytics dashboard for SaaS businesses with real-time metrics, user tracking, and revenue insights.",
+      "techStack": ["Next.js", "PostgreSQL", "Chart.js", "Stripe", "Vercel"],
+      "image": "/placeholder.svg?height=300&width=400",
+      "liveUrl": "https://example-analytics.com",
+      "githubUrl": "https://github.com/husaini/saas-analytics"
+    },
+    {
+      "id": 5,
+      "title": "Social Media Manager",
+      "description": "A social media management tool that allows scheduling posts, analyzing engagement, and managing multiple accounts from one dashboard.",
+      "techStack": ["Vue.js", "Express.js", "MongoDB", "Social APIs", "Tailwind CSS"],
+      "image": "/placeholder.svg?height=300&width=400",
+      "liveUrl": "https://example-social.com",
+      "githubUrl": "https://github.com/husaini/social-manager"
+    }
+  ]
+}
