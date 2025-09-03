@@ -175,3 +175,32 @@ html {
 	display: flex;
 	flex-direction: column;
 }
+
+/* Typing animation styles */
+@keyframes blink {
+	0%,
+	50% {
+		opacity: 1;
+	}
+	51%,
+	100% {
+		opacity: 0;
+	}
+}
+
+.typing-cursor {
+	animation: blink 1s infinite;
+}
+
+/* Responsive min-width for typing animation */
+@media (max-width: 640px) {
+	.typing-container {
+		min-width: 280px !important;
+	}
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+	.typing-container {
+		min-width: 400px !important;
+	}
+}

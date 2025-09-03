@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 	description:
 		'Professional portfolio of Husaini, a fullstack software developer specializing in modern web applications and digital experiences.',
 	generator: 'v0.app',
+	icons: {
+		icon: '/favicon.ico',
+	},
 };
 
 export default function RootLayout({
@@ -31,8 +34,8 @@ export default function RootLayout({
 			<body className="font-sans" suppressHydrationWarning>
 				<ThemeProvider
 					attribute="class"
-					defaultTheme="system"
-					enableSystem
+					defaultTheme="light"
+					enableSystem={false}
 					disableTransitionOnChange
 				>
 					{children}

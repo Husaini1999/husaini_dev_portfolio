@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTheme } from '@/lib/use-theme';
 import emailjs from '@emailjs/browser';
 import { Button } from '@/components/ui/button';
@@ -94,6 +94,23 @@ export default function Home() {
 		'idle' | 'success' | 'error'
 	>('idle');
 
+	// Typing animation states
+	const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+	const [currentText, setCurrentText] = useState('');
+	const [isDeleting, setIsDeleting] = useState(false);
+
+	const titles = useMemo(
+		() => [
+			'Fullstack Developer',
+			'Frontend Developer',
+			'React.js Specialist',
+			'TypeScript Enthusiast',
+			'Node.js Backend Developer',
+			'API & Integration Builder',
+		],
+		[]
+	);
+
 	useEffect(() => {
 		const fetchProjects = async () => {
 			try {
@@ -123,6 +140,41 @@ export default function Home() {
 			setTheme('light');
 		}
 	}, [theme, setTheme, mounted]);
+
+	// Typing animation effect
+	useEffect(() => {
+		if (!mounted) return;
+
+		const currentTitle = titles[currentTitleIndex];
+
+		if (isDeleting) {
+			// Backspace effect
+			if (currentText.length > 0) {
+				const timer = setTimeout(() => {
+					setCurrentText(currentText.slice(0, -1));
+				}, 100);
+				return () => clearTimeout(timer);
+			} else {
+				// Move to next title
+				setIsDeleting(false);
+				setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
+			}
+		} else {
+			// Typing effect
+			if (currentText.length < currentTitle.length) {
+				const timer = setTimeout(() => {
+					setCurrentText(currentTitle.slice(0, currentText.length + 1));
+				}, 150);
+				return () => clearTimeout(timer);
+			} else {
+				// Wait before starting to delete
+				const timer = setTimeout(() => {
+					setIsDeleting(true);
+				}, 2000);
+				return () => clearTimeout(timer);
+			}
+		}
+	}, [currentText, currentTitleIndex, isDeleting, titles, mounted]);
 
 	const scrollToSection = (sectionId: string) => {
 		const element = document.getElementById(sectionId);
@@ -526,7 +578,10 @@ export default function Home() {
 					</div>
 
 					<h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-						Fullstack Developer
+						<span className="inline-block typing-container min-w-[400px] md:min-w-[600px]">
+							{currentText}
+							<span className="typing-cursor">|</span>
+						</span>
 					</h1>
 
 					<p className="text-xl md:text-2xl text-[#64748B] dark:text-[#9CA3AF] mb-8 max-w-3xl mx-auto">
