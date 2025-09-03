@@ -4,6 +4,7 @@ import type React from 'react';
 
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/use-theme';
+import emailjs from '@emailjs/browser';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -84,11 +85,16 @@ export default function Home() {
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
+		phone: '',
 		message: '',
 	});
 	const [projects, setProjects] = useState<Project[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [showAllProjects, setShowAllProjects] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitStatus, setSubmitStatus] = useState<
+		'idle' | 'success' | 'error'
+	>('idle');
 
 	useEffect(() => {
 		const fetchProjects = async () => {
@@ -105,6 +111,12 @@ export default function Home() {
 
 		fetchProjects();
 		setMounted(true);
+
+		// Initialize EmailJS only if public key is available
+		const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+		if (publicKey) {
+			emailjs.init(publicKey);
+		}
 	}, []);
 
 	const scrollToSection = (sectionId: string) => {
@@ -125,12 +137,61 @@ export default function Home() {
 		}));
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		// Handle form submission here
-		console.log('Form submitted:', formData);
-		// Reset form
-		setFormData({ name: '', email: '', message: '' });
+		setIsSubmitting(true);
+		setSubmitStatus('idle');
+
+		// Check if environment variables are set
+		const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+		const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+		const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+
+		if (!publicKey || !serviceId || !templateId) {
+			console.error(
+				'EmailJS environment variables not configured. Please check your .env file.'
+			);
+			setSubmitStatus('error');
+			setIsSubmitting(false);
+			return;
+		}
+
+		try {
+			// Send email using EmailJS
+			const result = await emailjs.send(
+				process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '', // EmailJS service ID
+				process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '', // EmailJS template ID
+				{
+					name: formData.name,
+					email: formData.email,
+					phone: formData.phone || 'Not provided',
+					message: formData.message,
+					time: new Date().toLocaleString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit',
+						timeZoneName: 'short',
+					}),
+				},
+				process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '' // EmailJS public key
+			);
+
+			if (result.status === 200) {
+				setSubmitStatus('success');
+				setFormData({ name: '', email: '', phone: '', message: '' });
+				// Reset status after 5 seconds
+				setTimeout(() => setSubmitStatus('idle'), 5000);
+			}
+		} catch (error) {
+			console.error('Failed to send email:', error);
+			setSubmitStatus('error');
+			// Reset error status after 5 seconds
+			setTimeout(() => setSubmitStatus('idle'), 5000);
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	const skillCategories = [
@@ -967,6 +1028,25 @@ export default function Home() {
 
 									<div>
 										<label
+											htmlFor="phone"
+											className="block text-sm font-medium text-[#1E293B] dark:text-[#E6EDF3] mb-2"
+										>
+											Phone Number{' '}
+											<span className="text-gray-500 text-xs">(Optional)</span>
+										</label>
+										<Input
+											id="phone"
+											name="phone"
+											type="tel"
+											value={formData.phone}
+											onChange={handleInputChange}
+											placeholder="+60123456789"
+											className="w-full border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0D1117] text-[#1E293B] dark:text-[#E6EDF3] focus:border-[#2563EB] dark:focus:border-[#3B82F6]"
+										/>
+									</div>
+
+									<div>
+										<label
 											htmlFor="message"
 											className="block text-sm font-medium text-[#1E293B] dark:text-[#E6EDF3] mb-2"
 										>
@@ -986,11 +1066,45 @@ export default function Home() {
 
 									<Button
 										type="submit"
-										className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] dark:bg-[#3B82F6] dark:hover:bg-[#2563EB] text-white py-3"
+										disabled={isSubmitting}
+										className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] dark:bg-[#3B82F6] dark:hover:bg-[#2563EB] text-white py-3 disabled:opacity-50 disabled:cursor-not-allowed"
 									>
-										<Send className="w-4 h-4 mr-2" />
-										Send Message
+										{isSubmitting ? (
+											<>
+												<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+												Sending...
+											</>
+										) : (
+											<>
+												<Send className="w-4 h-4 mr-2" />
+												Send Message
+											</>
+										)}
 									</Button>
+
+									{/* Status Messages */}
+									{submitStatus === 'success' && (
+										<div className="mt-4 p-3 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+											<p className="text-green-800 dark:text-green-200 text-sm text-center">
+												✅ Message sent successfully! I'll get back to you soon.
+											</p>
+										</div>
+									)}
+
+									{submitStatus === 'error' && (
+										<div className="mt-4 p-3 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+											<p className="text-red-800 dark:text-red-200 text-sm text-center">
+												❌ Failed to send message. Please try again or email me
+												directly at{' '}
+												<a
+													href="mailto:husainimuhd99@gmail.com"
+													className="underline hover:text-red-600 dark:hover:text-red-400"
+												>
+													husainimuhd99@gmail.com
+												</a>
+											</p>
+										</div>
+									)}
 								</form>
 							</CardContent>
 						</Card>
