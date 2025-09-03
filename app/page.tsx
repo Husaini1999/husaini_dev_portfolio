@@ -117,6 +117,13 @@ export default function Home() {
 		}
 	}, []);
 
+	// Initialize theme to light mode on first visit
+	useEffect(() => {
+		if (theme === undefined && mounted) {
+			setTheme('light');
+		}
+	}, [theme, setTheme, mounted]);
+
 	const scrollToSection = (sectionId: string) => {
 		const element = document.getElementById(sectionId);
 		if (element) {
@@ -383,12 +390,6 @@ export default function Home() {
 								Testimonials
 							</button>
 							*/}
-							<button
-								onClick={() => scrollToSection('contact')}
-								className="hidden md:inline-flex bg-[#2563EB] hover:bg-[#1D4ED8] dark:bg-[#3B82F6] dark:hover:bg-[#2563EB] text-white"
-							>
-								Hire Me
-							</button>
 						</div>
 
 						<div className="flex items-center space-x-4">
