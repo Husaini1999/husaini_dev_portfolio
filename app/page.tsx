@@ -88,6 +88,7 @@ export default function Home() {
 	});
 	const [projects, setProjects] = useState<Project[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [showAllProjects, setShowAllProjects] = useState(false);
 
 	useEffect(() => {
 		const fetchProjects = async () => {
@@ -712,9 +713,9 @@ export default function Home() {
 			{/* Projects Section */}
 			<section
 				id="projects"
-				className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#161B22] overflow-hidden"
+				className="py-16 sm:py-20 bg-white dark:bg-[#161B22]"
 			>
-				<div className="max-w-7xl mx-auto">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-16">
 						<h2 className="text-3xl md:text-4xl font-bold mb-4">Projects</h2>
 						<div className="w-20 h-1 bg-[#2563EB] dark:bg-[#3B82F6] mx-auto rounded-full"></div>
@@ -728,42 +729,42 @@ export default function Home() {
 							<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB] dark:border-[#3B82F6]"></div>
 						</div>
 					) : (
-						/* Horizontal scrolling projects container */
-						<div className="relative">
-							<div className="flex gap-6 animate-scroll-horizontal">
-								{projects.concat(projects).map((project, index) => (
+						/* Responsive Grid Layout */
+						<div className="projects-grid">
+							{(showAllProjects ? projects : projects.slice(0, 6)).map(
+								(project, index) => (
 									<Card
-										key={`${project.id}-${index}`}
-										className="min-w-[350px] max-w-[350px] border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0D1117] overflow-hidden hover:shadow-xl transition-all duration-300 group flex-shrink-0"
+										key={project.id}
+										className="project-card group border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0D1117] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 w-full"
 									>
 										<div className="flex flex-col h-full">
-											{/* Project Image */}
-											<div className="relative overflow-hidden h-48">
+											{/* Project Image with Hover Effect */}
+											<div className="relative overflow-hidden h-64">
 												<img
 													src={project.image || '/placeholder.svg'}
 													alt={project.title}
-													className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+													className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
 												/>
 											</div>
 
 											<CardContent className="p-6 flex flex-col flex-grow">
 												<div className="flex-grow">
-													<h3 className="text-xl font-bold mb-3 text-[#1E293B] dark:text-[#E6EDF3]">
+													<h3 className="text-xl font-bold mb-3 text-[#1E293B] dark:text-[#E6EDF3] group-hover:text-[#2563EB] dark:group-hover:text-[#3B82F6] transition-colors">
 														{project.title}
 													</h3>
 
-													<p className="text-[#64748B] dark:text-[#9CA3AF] text-sm leading-relaxed mb-4">
+													<p className="text-[#64748B] dark:text-[#9CA3AF] text-sm leading-relaxed mb-4 line-clamp-3">
 														{project.description}
 													</p>
 
 													{/* Tech Stack */}
 													<div className="mb-6">
-														<div className="flex flex-wrap gap-1">
+														<div className="flex flex-wrap gap-2">
 															{project.techStack.map((tech, techIndex) => (
 																<Badge
 																	key={techIndex}
 																	variant="outline"
-																	className="text-xs border-[#2563EB]/30 text-[#2563EB] dark:border-[#3B82F6]/30 dark:text-[#3B82F6]"
+																	className="text-xs border-[#2563EB]/30 text-[#2563EB] dark:border-[#3B82F6]/30 dark:text-[#3B82F6] hover:bg-[#2563EB]/10 dark:hover:bg-[#3B82F6]/10 transition-colors"
 																>
 																	{tech}
 																</Badge>
@@ -772,9 +773,10 @@ export default function Home() {
 													</div>
 												</div>
 
+												{/* Action Buttons */}
 												<div className="flex gap-3 mt-auto">
 													<Button
-														className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] dark:bg-[#3B82F6] dark:hover:bg-[#2563EB] text-white"
+														className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] dark:bg-[#3B82F6] dark:hover:bg-[#2563EB] text-white transition-all duration-200 hover:scale-105"
 														onClick={() =>
 															window.open(project.liveUrl, '_blank')
 														}
@@ -784,7 +786,7 @@ export default function Home() {
 													</Button>
 													<Button
 														variant="outline"
-														className="flex-1 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent"
+														className="flex-1 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent transition-all duration-200 hover:scale-105"
 														onClick={() =>
 															window.open(project.githubUrl, '_blank')
 														}
@@ -796,8 +798,23 @@ export default function Home() {
 											</CardContent>
 										</div>
 									</Card>
-								))}
-							</div>
+								)
+							)}
+						</div>
+					)}
+
+					{/* Show More Button */}
+					{!loading && projects.length > 6 && (
+						<div className="text-center mt-12">
+							<Button
+								onClick={() => setShowAllProjects(!showAllProjects)}
+								variant="outline"
+								className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent transition-all duration-200 hover:scale-105 px-8 py-3 text-lg"
+							>
+								{showAllProjects
+									? 'Show Less'
+									: `Show More (${projects.length - 6} more)`}
+							</Button>
 						</div>
 					)}
 				</div>
@@ -1001,7 +1018,7 @@ export default function Home() {
 												Email
 											</h4>
 											<p className="text-[#64748B] dark:text-[#9CA3AF]">
-												husaini@example.com
+												husainimuhd99@gmail.com
 											</p>
 										</div>
 									</div>
@@ -1015,7 +1032,7 @@ export default function Home() {
 												Location
 											</h4>
 											<p className="text-[#64748B] dark:text-[#9CA3AF]">
-												Available for remote work worldwide
+												Malaysia | Available for remote work worldwide
 											</p>
 										</div>
 									</div>
@@ -1047,7 +1064,10 @@ export default function Home() {
 										size="icon"
 										className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent"
 										onClick={() =>
-											window.open('https://linkedin.com/in/husaini', '_blank')
+											window.open(
+												'https://www.linkedin.com/in/husaini99/',
+												'_blank'
+											)
 										}
 									>
 										<Linkedin className="w-5 h-5" />
@@ -1057,7 +1077,7 @@ export default function Home() {
 										size="icon"
 										className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent"
 										onClick={() =>
-											window.open('https://github.com/husaini', '_blank')
+											window.open('https://github.com/Husaini1999', '_blank')
 										}
 									>
 										<Github className="w-5 h-5" />
@@ -1066,13 +1086,32 @@ export default function Home() {
 										variant="outline"
 										size="icon"
 										className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent"
-										onClick={() =>
-											window.open('mailto:husaini@example.com', '_blank')
-										}
+										onClick={() => {
+											const subject = encodeURIComponent(
+												'Project Inquiry - Web Development'
+											);
+											const body = encodeURIComponent(`Hi Husaini,
+											I came across your portfolio and I'm interested in working with you on a project.
+
+											Project Details:
+											- Project Type: 
+											- Timeline: 
+											- Budget Range: 
+											- Description: 
+
+											Please let me know if you're available and how we can proceed.
+
+											Best regards,
+											[Your Name]`);
+											window.open(
+												`mailto:husainimuhd99@gmail.com?subject=${subject}&body=${body}`,
+												'_blank'
+											);
+										}}
 									>
 										<Mail className="w-5 h-5" />
 									</Button>
-									<Button
+									{/* <Button
 										variant="outline"
 										size="icon"
 										className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] bg-transparent"
@@ -1081,7 +1120,7 @@ export default function Home() {
 										}
 									>
 										<Twitter className="w-5 h-5" />
-									</Button>
+									</Button> */}
 								</div>
 							</div>
 						</div>
@@ -1105,7 +1144,10 @@ export default function Home() {
 									size="icon"
 									className="text-gray-300 hover:text-white hover:bg-white/10"
 									onClick={() =>
-										window.open('https://linkedin.com/in/husaini', '_blank')
+										window.open(
+											'https://www.linkedin.com/in/husaini99/',
+											'_blank'
+										)
 									}
 								>
 									<Linkedin className="w-5 h-5" />
@@ -1115,7 +1157,7 @@ export default function Home() {
 									size="icon"
 									className="text-gray-300 hover:text-white hover:bg-white/10"
 									onClick={() =>
-										window.open('https://github.com/husaini', '_blank')
+										window.open('https://github.com/Husaini1999', '_blank')
 									}
 								>
 									<Github className="w-5 h-5" />
@@ -1124,13 +1166,33 @@ export default function Home() {
 									variant="ghost"
 									size="icon"
 									className="text-gray-300 hover:text-white hover:bg-white/10"
-									onClick={() =>
-										window.open('mailto:husaini@example.com', '_blank')
-									}
+									onClick={() => {
+										const subject = encodeURIComponent(
+											'Project Inquiry - Web Development'
+										);
+										const body = encodeURIComponent(`Hi Husaini,
+
+										I came across your portfolio and I'm interested in working with you on a project.
+
+										Project Details:
+										- Project Type: 
+										- Timeline: 
+										- Budget Range: 
+										- Description: 
+
+										Please let me know if you're available and how we can proceed.
+
+										Best regards,
+										[Your Name]`);
+										window.open(
+											`mailto:husainimuhd99@gmail.com?subject=${subject}&body=${body}`,
+											'_blank'
+										);
+									}}
 								>
 									<Mail className="w-5 h-5" />
 								</Button>
-								<Button
+								{/* <Button
 									variant="ghost"
 									size="icon"
 									className="text-gray-300 hover:text-white hover:bg-white/10"
@@ -1139,7 +1201,7 @@ export default function Home() {
 									}
 								>
 									<Twitter className="w-5 h-5" />
-								</Button>
+								</Button> */}
 							</div>
 						</div>
 
@@ -1197,7 +1259,7 @@ export default function Home() {
 								</li>
 								<li>
 									<a
-										href="https://github.com/husaini"
+										href="https://github.com/Husaini1999"
 										className="text-gray-300 hover:text-white transition-colors flex items-center"
 									>
 										<Github className="w-4 h-4 mr-2" />
@@ -1206,14 +1268,14 @@ export default function Home() {
 								</li>
 								<li>
 									<a
-										href="https://linkedin.com/in/husaini"
+										href="https://www.linkedin.com/in/husaini99/"
 										className="text-gray-300 hover:text-white transition-colors flex items-center"
 									>
 										<Linkedin className="w-4 h-4 mr-2" />
 										LinkedIn
 									</a>
 								</li>
-								<li>
+								{/* <li>
 									<a
 										href="https://twitter.com/husaini"
 										className="text-gray-300 hover:text-white transition-colors flex items-center"
@@ -1221,7 +1283,7 @@ export default function Home() {
 										<Twitter className="w-4 h-4 mr-2" />
 										Twitter
 									</a>
-								</li>
+								</li> */}
 							</ul>
 						</div>
 					</div>
