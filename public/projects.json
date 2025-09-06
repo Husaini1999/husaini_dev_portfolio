@@ -19,18 +19,18 @@
 		},
 		{
 			"id": 2,
-			"title": "Task Management Dashboard",
-			"description": "A comprehensive dashboard with real-time updates, drag-and-drop functionality, and team collaboration features that improved productivity by 45%.",
+			"title": "Sunrise Medical Center",
+			"description": "A comprehensive clinic appointment management system that allows patients to book appointments, staff to manage schedules, and admins to oversee operations with role-based access control.",
 			"techStack": [
-				"React",
-				"TypeScript",
-				"Socket.io",
-				"Chart.js",
-				"Material-UI"
+				"React.js",
+				"Material-UI",
+				"Framer Motion",
+				"React Router",
+				"Node.js/Express"
 			],
-			"image": "/placeholder-4u2dj.png",
-			"liveUrl": "https://example-dashboard.com",
-			"githubUrl": "https://github.com/husaini/task-dashboard"
+			"image": "/sunrise-medical-center.png",
+			"liveUrl": "https://sunrise-medical-centre.vercel.app/",
+			"githubUrl": "https://github.com/Husaini1999/clinic-appointment-frontend"
 		},
 		{
 			"id": 3,
