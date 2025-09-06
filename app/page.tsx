@@ -335,14 +335,14 @@ export default function Home() {
 		},
 		{
 			icon: MessageCircle,
-			title: 'Consulting & Mentorship',
+			title: 'Technical Consulting',
 			description:
-				'Technical consulting for your development team and one-on-one mentorship for developers looking to advance their skills.',
+				'Strategic consulting to help you choose the right tech stack and architecture based on your application requirements and expected user traffic size.',
 			features: [
-				'Code Reviews',
-				'Architecture Planning',
-				'Team Training',
-				'Career Guidance',
+				'Tech Stack Selection',
+				'Scalability Planning',
+				'Architecture Design',
+				'Performance Optimization',
 			],
 		},
 	];
