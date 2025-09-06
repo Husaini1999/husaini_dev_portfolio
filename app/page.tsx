@@ -597,10 +597,11 @@ export default function Home() {
 						</Button>
 						<Button
 							variant="outline"
+							onClick={() => scrollToSection('contact')}
 							className="border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white dark:border-[#3B82F6] dark:text-[#3B82F6] dark:hover:bg-[#3B82F6] px-8 py-3 text-lg bg-transparent"
 						>
-							<Download className="mr-2 h-5 w-5" />
-							Download CV
+							<MessageCircle className="mr-2 h-5 w-5" />
+							Get In Touch
 						</Button>
 					</div>
 				</div>
@@ -652,10 +653,10 @@ export default function Home() {
 										<Users className="w-6 h-6 text-[#2563EB] dark:text-[#3B82F6]" />
 									</div>
 									<div className="text-2xl font-bold text-[#1E293B] dark:text-[#E6EDF3]">
-										50+
+										100%
 									</div>
 									<div className="text-sm text-[#64748B] dark:text-[#9CA3AF]">
-										Happy Clients
+										Client Satisfaction
 									</div>
 								</div>
 							</div>
@@ -735,14 +736,14 @@ export default function Home() {
 										variant="secondary"
 										className="bg-[#2563EB]/10 text-[#2563EB] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6] hover:bg-[#2563EB]/20"
 									>
-										Fintech
+										Oil and Gas
 									</Badge>
-									<Badge
+									{/* <Badge
 										variant="secondary"
 										className="bg-[#2563EB]/10 text-[#2563EB] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6] hover:bg-[#2563EB]/20"
 									>
 										E-commerce
-									</Badge>
+									</Badge> */}
 									<Badge
 										variant="secondary"
 										className="bg-[#2563EB]/10 text-[#2563EB] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6] hover:bg-[#2563EB]/20"
@@ -755,7 +756,7 @@ export default function Home() {
 									>
 										SaaS
 									</Badge>
-									<Badge
+									{/* <Badge
 										variant="secondary"
 										className="bg-[#2563EB]/10 text-[#2563EB] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6] hover:bg-[#2563EB]/20"
 									>
@@ -766,7 +767,7 @@ export default function Home() {
 										className="bg-[#2563EB]/10 text-[#2563EB] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6] hover:bg-[#2563EB]/20"
 									>
 										Real Estate
-									</Badge>
+									</Badge> */}
 								</div>
 							</div>
 						</div>
@@ -1418,15 +1419,6 @@ export default function Home() {
 						<div>
 							<h4 className="text-lg font-semibold mb-4">Resources</h4>
 							<ul className="space-y-2">
-								<li>
-									<a
-										href="#"
-										className="text-gray-300 hover:text-white transition-colors flex items-center"
-									>
-										<Download className="w-4 h-4 mr-2" />
-										Resume
-									</a>
-								</li>
 								<li>
 									<a
 										href="https://github.com/Husaini1999"
